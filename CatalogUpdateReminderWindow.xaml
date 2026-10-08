@@ -1,0 +1,21 @@
+<Window x:Class="WingetDashboard.CatalogUpdateReminderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+        SizeToContent="WidthAndHeight" MinWidth="460" MaxWidth="620"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="MessageText" Grid.Row="0" TextWrapping="Wrap" FontSize="16" Margin="0,0,0,20"
+                   Focusable="True" automation:AutomationProperties.LiveSetting="Polite"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="UpdateNowButton" MinWidth="120" Padding="12,7" Margin="0,0,10,0"
+                    Click="UpdateNowButton_Click"/>
+            <Button x:Name="RemindTomorrowButton" MinWidth="150" Padding="12,7"
+                    Click="RemindTomorrowButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

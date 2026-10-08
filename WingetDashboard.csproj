@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <WindowsSdkPackageVersion>10.0.26100.87</WindowsSdkPackageVersion>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>WingetDashboard</AssemblyName>
+    <RootNamespace>WingetDashboard</RootNamespace>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.UseNls" Value="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Languages\en-US.json" />
+    <Content Include="Languages\*.json" Exclude="Languages\en-US.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!--
+    Generate only the Microsoft.Management.Deployment projection from WinGet's WINMD.
+    The Windows.Foundation projection comes from the Windows-version-specific .NET 10 TFM
+    and its Microsoft.Windows.SDK.NET.Ref targeting pack. Do not replace this with the old
+    Microsoft.Windows.SDK.Contracts/netstandard2.0 metadata path; that caused the CsWinRT
+    cascade of missing Windows.Foundation types in v1.16.0.
+  -->
+  <PropertyGroup>
+    <CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
+    <CsWinRTIncludes>Microsoft.Management.Deployment</CsWinRTIncludes>
+    <WindowsPackageManagerWinmd>$(PkgMicrosoft_WindowsPackageManager_InProcCom)\lib\Microsoft.Management.Deployment.winmd</WindowsPackageManagerWinmd>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
+    <PackageReference Include="Microsoft.WindowsPackageManager.InProcCom" Version="1.12.350">
+      <NoWarn>NU1701</NoWarn>
+      <GeneratePathProperty>true</GeneratePathProperty>
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <CsWinRTInputs Include="$(WindowsPackageManagerWinmd)" />
+    <Content Include="$(WindowsPackageManagerWinmd)" Link="Microsoft.Management.Deployment.winmd" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

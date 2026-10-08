@@ -1,0 +1,99 @@
+<UserControl x:Class="WingetDashboard.SearchPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+             xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             KeyboardNavigation.TabNavigation="Cycle"
+             PreviewKeyDown="SearchPage_PreviewKeyDown">
+    <UserControl.Resources>
+        <Style x:Key="SearchResultItemStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="10,5"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="BackButton"
+                Grid.Row="0"
+                Content="Back to Dashboard"
+                HorizontalAlignment="Left"
+                MinWidth="150"
+                Height="34"
+                Padding="14,5"
+                Margin="0,0,0,14"
+                automation:AutomationProperties.Name="Back to Dashboard"
+                Click="BackButton_Click"/>
+
+        <TextBlock x:Name="TitleText" Grid.Row="1"
+                   Text="Search Winget"
+                   FontSize="30"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,18"/>
+
+        <StackPanel Grid.Row="2" Margin="0,0,0,22">
+            <wfi:WindowsFormsHost x:Name="SearchBoxHost"
+                                 Height="32"
+                                 Margin="0,0,0,10"
+                                 FontFamily="Segoe UI"
+                                 FontSize="14"
+                                 automation:AutomationProperties.Name="Search Winget catalog"
+                                 automation:AutomationProperties.HelpText="Enter a program name or a few keywords to search the catalog."/>
+
+            <Button x:Name="SearchActionButton"
+                    Content="Search"
+                    HorizontalAlignment="Left"
+                    MinWidth="120"
+                    Height="34"
+                    Padding="18,5"
+                    Click="SearchActionButton_Click"/>
+        </StackPanel>
+
+        <TextBlock x:Name="InstructionText" Grid.Row="3"
+                   Text="Enter to install. F2 for details."
+                   Margin="0,0,0,8"/>
+
+        <ListBox x:Name="ResultsList"
+                 Grid.Row="4"
+                 ItemsSource="{Binding Results}"
+                 IsEnabled="False"
+                 ItemContainerStyle="{StaticResource SearchResultItemStyle}"
+                 PreviewMouseRightButtonDown="ResultsList_PreviewMouseRightButtonDown">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="InstallMenuItem" Header="Install (Enter)" Click="InstallMenuItem_Click"/>
+                    <MenuItem x:Name="DetailsMenuItem" Header="Details (F2)" Click="DetailsMenuItem_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Margin="0,2,0,0"
+                                   FontSize="14"
+                                   TextWrapping="Wrap">
+                            <Run Text="{Binding VersionLabel, Mode=OneWay}"/>
+                            <Run Text="{Binding Version, Mode=OneWay}"/>
+                            <Run Text="  •  "/>
+                            <Run Text="{Binding Publisher, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding ShortDescription, Mode=OneWay}"
+                                   Margin="0,3,0,0"
+                                   FontSize="14"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

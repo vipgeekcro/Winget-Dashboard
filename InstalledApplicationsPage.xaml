@@ -1,0 +1,61 @@
+<UserControl x:Class="WingetDashboard.InstalledApplicationsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+             Focusable="False"
+             KeyboardNavigation.TabNavigation="Cycle"
+             PreviewKeyDown="InstalledApplicationsPage_PreviewKeyDown">
+    <UserControl.Resources>
+        <Style x:Key="InstalledApplicationItemStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="automation:AutomationProperties.Name" Value="{Binding DisplayText}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="BackButton" Grid.Row="0"
+                Content="_Back to Dashboard"
+                HorizontalAlignment="Left" MinWidth="160"
+                Padding="10,6" Margin="0,0,0,14"
+                Click="BackButton_Click"/>
+
+        <TextBlock x:Name="TitleText" Grid.Row="1"
+                   Text="Installed Applications"
+                   FontSize="30" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+        <StackPanel Grid.Row="2" Margin="0,0,0,8">
+            <TextBlock x:Name="StatusText"
+                       Text="Loading installed applications. Please wait."
+                       Margin="0,0,0,6" FontSize="15"
+                       Focusable="True" KeyboardNavigation.IsTabStop="True"
+                       automation:AutomationProperties.LiveSetting="Polite"/>
+            <TextBlock x:Name="InstructionText"
+                       Text="Enter to uninstall the selected application."/>
+        </StackPanel>
+
+        <ListBox x:Name="ApplicationsList" Grid.Row="3"
+                 ItemsSource="{Binding Applications}"
+                 IsEnabled="False"
+                 ItemContainerStyle="{StaticResource InstalledApplicationItemStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                   FontSize="18" FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Margin="0,2,0,0" FontSize="14"
+                                   TextWrapping="Wrap"><Run Text="{Binding VersionLabel, Mode=OneWay}"/><Run Text="{Binding Version, Mode=OneWay}"/></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

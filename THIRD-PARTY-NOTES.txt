@@ -1,0 +1,8 @@
+WinGet COM interop activation pattern
+-----------------------------------
+The small interop factory in Interop/WindowsPackageManagerInterop.cs is adapted from the MIT-licensed
+Windows Package Manager interop approach used by UniGetUI / Devolutions and Microsoft's WinGet COM API
+sample architecture. It contains only the COM class IDs and activation needed by this project.
+
+UniGetUI repository: https://github.com/Devolutions/UniGetUI
+WinGet repository: https://github.com/microsoft/winget-cli

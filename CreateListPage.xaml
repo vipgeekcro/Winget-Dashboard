@@ -1,0 +1,111 @@
+<UserControl x:Class="WingetDashboard.CreateListPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+             xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             KeyboardNavigation.TabNavigation="Cycle"
+             PreviewKeyDown="Page_PreviewKeyDown">
+    <UserControl.Resources>
+        <Style x:Key="SearchResultItemStyle" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="10,5"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleText" Grid.Row="0"
+                   FontSize="30"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,18"/>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,22">
+            <wfi:WindowsFormsHost x:Name="SearchBoxHost"
+                                 Height="32"
+                                 Margin="0,0,0,10"
+                                 FontFamily="Segoe UI"
+                                 FontSize="14"
+                                 automation:AutomationProperties.Name="Search Winget catalog"
+                                 automation:AutomationProperties.HelpText="Enter a program name or a few keywords to search the catalog."/>
+
+            <Button x:Name="SearchActionButton"
+                    Content="Search"
+                    HorizontalAlignment="Left"
+                    MinWidth="120"
+                    Height="34"
+                    Padding="18,5"
+                    Click="SearchActionButton_Click"/>
+        </StackPanel>
+
+        <TextBlock x:Name="SearchInstructionText" Grid.Row="2"
+                   Margin="0,0,0,8"/>
+
+        <ListBox x:Name="ResultsList"
+                 Grid.Row="3"
+                 ItemsSource="{Binding Results}"
+                 IsEnabled="False"
+                 ItemContainerStyle="{StaticResource SearchResultItemStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Margin="0,2,0,0"
+                                   FontSize="14"
+                                   TextWrapping="Wrap">
+                            <Run Text="{Binding VersionLabel, Mode=OneWay}"/>
+                            <Run Text="{Binding Version, Mode=OneWay}"/>
+                            <Run Text="  •  "/>
+                            <Run Text="{Binding Publisher, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding ShortDescription, Mode=OneWay}"
+                                   Margin="0,3,0,0"
+                                   FontSize="14"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="5" Margin="0,12,0,10">
+            <TextBlock x:Name="ListNameLabel" Margin="0,0,0,5"/>
+            <TextBox x:Name="ListNameBox" Height="32" FontSize="15" automation:AutomationProperties.LabeledBy="{Binding ElementName=ListNameLabel}"/>
+        </StackPanel>
+
+        <TextBlock x:Name="SelectedApplicationsLabel" Grid.Row="6" Margin="0,0,0,6" FontSize="15"/>
+
+        <ListBox x:Name="AddedList"
+                 Grid.Row="7"
+                 ItemsSource="{Binding AddedApplications}"
+                 ItemContainerStyle="{StaticResource SearchResultItemStyle}"
+                 GotKeyboardFocus="AddedList_GotKeyboardFocus"
+                 PreviewKeyDown="AddedList_PreviewKeyDown">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name, Mode=OneWay}"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <WrapPanel Grid.Row="8" Margin="0,12,0,0">
+            <Button x:Name="CreateListButton" MinWidth="130" Padding="10,6" Margin="0,0,8,0" Click="CreateListButton_Click"/>
+            <Button x:Name="BackButton" MinWidth="150" Padding="10,6" Click="BackButton_Click"/>
+        </WrapPanel>
+    </Grid>
+</UserControl>

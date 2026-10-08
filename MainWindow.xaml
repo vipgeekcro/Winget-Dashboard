@@ -1,0 +1,163 @@
+<Window x:Class="WingetDashboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+        Title="Winget Dashboard"
+        Width="1100" Height="680"
+        MinWidth="850" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- Dashboard polish remains based on standard WPF controls, System colors and native UI Automation. -->
+        <Style x:Key="DashboardFocusVisual" TargetType="Control">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"
+                                BorderThickness="2"
+                                Margin="-3"
+                                SnapsToDevicePixels="True">
+                            <AdornedElementPlaceholder/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DashboardButton" TargetType="Button">
+            <Setter Property="Margin" Value="12"/>
+            <Setter Property="Padding" Value="26"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource DashboardFocusVisual}"/>
+        </Style>
+        <Style x:Key="CardTitle" TargetType="AccessText">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="CardDescription" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="DecorativeIcon" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="28">
+        <Grid x:Name="DashboardView">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="DashboardTitleText" Grid.Row="0" Text="Winget Dashboard"
+                       FontSize="36" FontWeight="SemiBold"
+                       Margin="12,0,12,5"/>
+            <TextBlock x:Name="DashboardSubtitleText" Grid.Row="1" Text="Choose a task"
+                       FontSize="16" Margin="12,0,12,22"/>
+
+            <UniformGrid Grid.Row="2" Rows="2" Columns="3">
+                <Button x:Name="SearchButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Search Winget"
+                        automation:AutomationProperties.HelpText="Find and install apps from the Winget catalog."
+                        Click="DashboardButton_Click" Tag="Search Winget">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE721;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="SearchTitleText" Grid.Row="1" Text="_Search Winget" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="SearchDescriptionText" Grid.Row="2" Text="Find and install apps from the Winget catalog." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="UpdatesButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Updates"
+                        automation:AutomationProperties.HelpText="Check and install available app updates."
+                        Click="DashboardButton_Click" Tag="Updates">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE895;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="UpdatesTitleText" Grid.Row="1" Text="_Updates" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="UpdatesDescriptionText" Grid.Row="2" Text="Check and install available app updates." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="InstalledApplicationsButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Installed Applications"
+                        automation:AutomationProperties.HelpText="View and uninstall installed applications."
+                        Click="DashboardButton_Click" Tag="Installed Applications">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE71D;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="InstalledTitleText" Grid.Row="1" Text="Installed _Applications" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="InstalledDescriptionText" Grid.Row="2" Text="View and uninstall installed applications." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="ListsButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Lists"
+                        automation:AutomationProperties.HelpText="Create and manage application lists."
+                        Click="DashboardButton_Click" Tag="Lists">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE8FD;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="ListsTitleText" Grid.Row="1" Text="_Lists" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="ListsDescriptionText" Grid.Row="2" Text="Create and manage application lists." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="CatalogButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Catalog"
+                        automation:AutomationProperties.HelpText="View and update the local Winget catalog."
+                        Click="DashboardButton_Click" Tag="Catalog">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE8F1;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="CatalogTitleText" Grid.Row="1" Text="_Catalog" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="CatalogDescriptionText" Grid.Row="2" Text="View and update the local Winget catalog." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="SettingsButton" Style="{StaticResource DashboardButton}"
+                        automation:AutomationProperties.Name="Settings"
+                        automation:AutomationProperties.HelpText="Configure Winget Dashboard preferences."
+                        Click="DashboardButton_Click" Tag="Settings">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48"/>
+                            <RowDefinition Height="42"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#xE713;" Style="{StaticResource DecorativeIcon}"/>
+                        <AccessText x:Name="SettingsTitleText" Grid.Row="1" Text="Se_ttings" Style="{StaticResource CardTitle}"/>
+                        <TextBlock x:Name="SettingsDescriptionText" Grid.Row="2" Text="Configure Winget Dashboard preferences." Style="{StaticResource CardDescription}"/>
+                    </Grid>
+                </Button>
+            </UniformGrid>
+        </Grid>
+
+        <ContentControl x:Name="PageHost" Visibility="Collapsed"/>
+    </Grid>
+</Window>

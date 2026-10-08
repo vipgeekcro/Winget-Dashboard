@@ -1,0 +1,35 @@
+<UserControl x:Class="WingetDashboard.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:automation="clr-namespace:System.Windows.Automation;assembly=PresentationCore"
+             KeyboardNavigation.TabNavigation="Cycle">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="BackButton" Grid.Row="0" HorizontalAlignment="Left" MinWidth="160"
+                Padding="10,6" Margin="0,0,0,14" Click="BackButton_Click"/>
+        <TextBlock x:Name="TitleText" Grid.Row="1" FontSize="30" FontWeight="SemiBold" Margin="0,0,0,18"/>
+        <TextBlock x:Name="LanguageLabel" Grid.Row="2" FontSize="16" Margin="0,0,0,6"/>
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="3" Width="280" HorizontalAlignment="Left"
+                  MinHeight="34" automation:AutomationProperties.LiveSetting="Polite"/>
+        <TextBlock x:Name="CatalogUpdateLabel" Grid.Row="4" FontSize="16" Margin="0,18,0,6"/>
+        <ComboBox x:Name="CatalogUpdateComboBox" Grid.Row="5" Width="280" HorizontalAlignment="Left"
+                  MinHeight="34" automation:AutomationProperties.LiveSetting="Polite"/>
+        <TextBlock x:Name="StatusText" Grid.Row="6" Margin="0,12,0,12" Focusable="False" KeyboardNavigation.IsTabStop="False"
+                   automation:AutomationProperties.LiveSetting="Polite"/>
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button x:Name="ResetDefaultsButton" MinWidth="160" Padding="10,6" Margin="0,0,10,0"
+                    Click="ResetDefaultsButton_Click"/>
+            <Button x:Name="SaveSettingsButton" MinWidth="160" Padding="10,6"
+                    Click="SaveSettingsButton_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

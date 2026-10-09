@@ -45,7 +45,7 @@ English is the built-in fallback language.
 
 Ready-to-use versions of Winget Dashboard are available from the **Releases** section of this repository.
 
-Download the ZIP file for the desired version, extract it and run Winget Dashboard.
+Download the latest installer and run `Winget-Dashboard-X.X.X-Setup.exe` to install the application.
 
 ## Requirements
 
